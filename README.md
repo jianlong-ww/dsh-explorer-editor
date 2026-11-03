@@ -2,7 +2,9 @@
 
 **在 DSH 的文件预览面板里直接编辑**：用 Monaco（VS Code 的编辑器）打开工作区文本文件，带语法高亮和基于工程类型的补全。
 
-版本 `0.1.0`。编译产物（`lib/`，含 Monaco 构建）随仓库提供，克隆后可直接安装，无需构建。
+![在预览面板中编辑 TypeScript 文件：语法高亮、参数补全提示、顶栏保存与未保存状态](assets/screenshot.png)
+
+版本 `0.1.0`。通过 npm 安装；从源码构建仅用于开发（仓库不包含编译产物）。
 
 ## 功能
 
@@ -49,6 +51,8 @@ dsh plugin --profile desktop remove @jianlong-ww/dsh-explorer-editor
 
 ### 从源码安装（开发用）
 
+仓库不包含编译产物（`lib/` 不入库），从源码安装需要先构建：
+
 ```sh
 git clone https://github.com/jianlong-ww/dsh-explorer-editor.git
 cd dsh-explorer-editor
@@ -58,7 +62,7 @@ dsh plugin --profile desktop add .
 
 `add` 对本地目录建立链接安装，之后改代码只需 `pnpm build` 并重启 dsh。
 
-> 不要用 `dsh plugin add git+https://…`：pnpm 会把 git 依赖当成待构建的包去安装它的 devDependencies（含 `monaco-editor`），在 Windows 上还会因跨盘符号链接而报 `EPERM`。registry 包或本地目录都不会触发这个问题。
+> **不要用 `dsh plugin add git+https://…` 或 `github:…` 安装**：本仓库没有预构建产物，pnpm 会把 git 依赖当成待构建的包去装它的 devDependencies（含 `monaco-editor`，解包约 100 MB），在 Windows 上还会因跨盘符号链接报 `EPERM`。请用 registry 包，或克隆后按上面的步骤构建。
 
 ## 配置
 
@@ -140,7 +144,8 @@ src/protocol.ts        两端共享的线格式
 scripts/               构建与校验脚本（Monaco 拷贝、类型别名、typecheck 门禁）
 tests/                 vitest 用例
 locale/                插件显示元数据
-lib/                   编译产物（已入库，可直接安装）
+assets/                README 截图
+lib/                   编译产物（不入库，由 `pnpm build` 生成）
 ```
 
 ## License
