@@ -35,19 +35,30 @@ DSH 的匹配规则是「文件名以 `.` + 后缀结尾」，因此**没有后�
 ## 安装
 
 ```sh
-git clone https://github.com/jianlong-ww/dsh-explorer-editor.git
-cd dsh-explorer-editor
-dsh plugin --profile desktop add .
+dsh plugin --profile desktop add @jianlong-ww/dsh-explorer-editor
 dsh --profile desktop --dump-config     # 确认出现 explorer-editor 这一层
 ```
 
-`add` 建立链接安装，装完**重启 dsh**（Host 半在启动时加载），然后刷新页面。
+装完**重启 dsh**（Host 半在启动时加载），然后刷新页面。
 
 卸载：
 
 ```sh
-dsh plugin --profile desktop remove dsh-explorer-editor
+dsh plugin --profile desktop remove @jianlong-ww/dsh-explorer-editor
 ```
+
+### 从源码安装（开发用）
+
+```sh
+git clone https://github.com/jianlong-ww/dsh-explorer-editor.git
+cd dsh-explorer-editor
+pnpm install && pnpm build     # 产出 lib/，并把 Monaco 构建拷进 lib/monaco
+dsh plugin --profile desktop add .
+```
+
+`add` 对本地目录建立链接安装，之后改代码只需 `pnpm build` 并重启 dsh。
+
+> 不要用 `dsh plugin add git+https://…`：pnpm 会把 git 依赖当成待构建的包去安装它的 devDependencies（含 `monaco-editor`），在 Windows 上还会因跨盘符号链接而报 `EPERM`。registry 包或本地目录都不会触发这个问题。
 
 ## 配置
 
@@ -56,7 +67,7 @@ dsh plugin --profile desktop remove dsh-explorer-editor
 ```yaml
 - insert:
     - id: explorer-editor
-      name: dsh-explorer-editor
+      name: '@jianlong-ww/dsh-explorer-editor'
       config:
         maxWriteBytes: 2097152    # 单次保存的文本上限（UTF-8 字节）
         respectSessionMode: true  # 是否沿用会话的沙箱模式

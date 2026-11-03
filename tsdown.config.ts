@@ -48,7 +48,10 @@ export default defineConfig([
     },
     outputOptions: {
       entryFileNames: 'client.js',
-      banner: 'window.__ModuleLoader__.load({ id: "dsh-explorer-editor", factory: (require) => {',
+      // The id must equal the package name: the module table keys its factories
+      // by package name, and the boot row this bundle registers under has to
+      // match the row the graph is executing.
+      banner: 'window.__ModuleLoader__.load({ id: "@jianlong-ww/dsh-explorer-editor", factory: (require) => {',
       footer: 'return module.exports; } });',
       intro: 'var module = { exports: {} }; var exports = module.exports;',
     },

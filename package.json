@@ -1,8 +1,25 @@
 {
-  "name": "dsh-explorer-editor",
+  "name": "@jianlong-ww/dsh-explorer-editor",
   "version": "0.1.0",
-  "private": true,
-  "description": "Browser-side workspace file editor for DeepSeek Harness: edit and save workspace text files from the Web GUI.",
+  "description": "Monaco editor inside the DeepSeek Harness file preview: edit, highlight, and project-typed completion in place.",
+  "license": "MIT",
+  "author": "jianlong-ww",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jianlong-ww/dsh-explorer-editor.git"
+  },
+  "homepage": "https://github.com/jianlong-ww/dsh-explorer-editor#readme",
+  "bugs": {
+    "url": "https://github.com/jianlong-ww/dsh-explorer-editor/issues"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "monaco",
+    "editor",
+    "preview"
+  ],
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,6 +39,10 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
