@@ -1,9 +1,4 @@
 node_modules/
-lib/
-coverage/
-.artifacts/
-.env
-*.log
 
 # Local scratch: design notes, research, and one-off probes that are not part of the plugin.
 tmp/
