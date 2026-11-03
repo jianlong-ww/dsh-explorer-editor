@@ -27,8 +27,8 @@ DSH 的匹配规则是「文件名以 `.` + 后缀结尾」，因此**没有后�
 ## 安装
 
 ```sh
-dsh plugin --profile desktop add @jianlong-ww/dsh-explorer-editor
-dsh --profile desktop --dump-config     # 确认出现 explorer-editor 这一层
+dsh plugin --profile desktop add @jianlong-ww/dsh-explorer-editor # 桌面应用
+dsh plugin --profile web add @jianlong-ww/dsh-explorer-editor     # 浏览器端
 ```
 
 不建议用 `github:` 或 `git+https://` 安装：仓库不包含编译产物，pnpm 会把 git 依赖当成待构建的包去装它的 devDependencies（含 `monaco-editor`），在 Windows 上还会因跨盘符号链接而报 `EPERM`。
