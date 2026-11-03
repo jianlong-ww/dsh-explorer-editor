@@ -1,0 +1,9 @@
+# dsh-explorer-editor 组合层。
+# 本包同时声明 Host 面（lib/index.js）与 Client 面（lib/client.js），
+# 一行即可供应两端；profile 的 patch 可按 id 覆盖 config。
+- insert:
+    - id: explorer-editor
+      name: dsh-explorer-editor
+      config:
+        maxWriteBytes: 2097152
+        respectSessionMode: true

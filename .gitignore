@@ -1,0 +1,12 @@
+node_modules/
+lib/
+coverage/
+.artifacts/
+.env
+*.log
+
+# Local scratch: design notes, research, and one-off probes that are not part of the plugin.
+tmp/
+
+# Written by `pnpm typecheck`: local aliases into a harness checkout.
+tsconfig.local.json
