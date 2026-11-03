@@ -19,7 +19,8 @@
     "lib",
     "cordis.patch.yml",
     "locale/*.json",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "dsh": {
     "bundle": {

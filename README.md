@@ -18,7 +18,11 @@ Markdown 仍由内置渲染器显示（它渲染标题/链接/图片，比纯文
 
 ## 安装
 
+仓库只包含源码：`lib/`（含 14.6 MB 的 Monaco 构建）是产物，不入库，克隆后需要先构建。
+
 ```sh
+pnpm install          # 需要能访问 npm：monaco-editor 在 devDependencies 里
+pnpm build            # 产出 lib/index.js、lib/client.js，并把 Monaco 的 min/vs 拷进 lib/monaco
 dsh plugin --profile desktop add .
 dsh --profile desktop --dump-config     # 确认出现 explorer-editor 这一层
 ```
@@ -26,6 +30,9 @@ dsh --profile desktop --dump-config     # 确认出现 explorer-editor 这一层
 装进 profile 后**刷新页面**即可；Host 侧的改动需要重启 dsh。链接安装，改完 `pnpm build` 再刷新，不用重新 add。
 
 建议先装进专用 profile（如 `explorer-dev`）：装进去即对该 profile 的所有会话开放写入口。
+
+> 如果 `pnpm build` 找不到 `monaco-editor`，用 `--from` 或环境变量指向一份已解包的同版本构建：
+> `node scripts/sync-monaco.mjs --from <monaco-editor 目录>` / `MONACO_DIR=<目录> pnpm build`。
 
 ## 产物构成
 
@@ -89,4 +96,4 @@ curl -I http://127.0.0.1:<port>/explorer-editor/monaco/vs/editor/editor.main.js
 
 ## License
 
-MIT（待补 LICENSE 文件）。内置的 Monaco 构建来自 `monaco-editor`，其许可证为 MIT。
+MIT，见 [LICENSE](LICENSE)。内置的 Monaco 构建来自 `monaco-editor`（MIT）。
