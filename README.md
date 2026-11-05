@@ -31,6 +31,12 @@ dsh plugin --profile desktop add @jianlong-ww/dsh-explorer-editor # 桌面应用
 dsh plugin --profile web add @jianlong-ww/dsh-explorer-editor     # 浏览器端
 ```
 
+也可以用 GitHub Release 里的预构建包（与 npm 上的内容相同，适合不方便访问 npm 的环境）：
+
+```sh
+dsh plugin --profile desktop add https://github.com/jianlong-ww/dsh-explorer-editor/releases/download/v0.1.0/dsh-explorer-editor-0.1.0.tgz
+```
+
 不建议用 `github:` 或 `git+https://` 安装：仓库不包含编译产物，pnpm 会把 git 依赖当成待构建的包去装它的 devDependencies（含 `monaco-editor`），在 Windows 上还会因跨盘符号链接而报 `EPERM`。
 
 装完**重启 dsh**，然后刷新页面。
