@@ -1,6 +1,6 @@
 {
   "name": "@jianlong-ww/dsh-explorer-editor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Monaco editor inside the DeepSeek Harness file preview: edit, highlight, and project-typed completion in place.",
   "license": "MIT",
   "author": "jianlong-ww",

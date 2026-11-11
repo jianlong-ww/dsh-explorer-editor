@@ -86,9 +86,35 @@ interface AmdRequire {
 interface MonacoWindow {
   monaco?: MonacoApi
   require?: AmdRequire
+  define?: AmdDefine
+}
+
+/** The AMD `define` function Monaco's loader publishes on `window`. */
+interface AmdDefine {
+  amd?: unknown
 }
 
 const scope = globalThis as unknown as MonacoWindow
+
+/**
+ * Remove the AMD marker Monaco's loader publishes as `define.amd`.
+ *
+ * UMD bundles elsewhere on the page test `define.amd` before falling back to
+ * `module.exports` — the spreadsheet preview's `numeral` does exactly that — so
+ * while the marker is set they register an anonymous AMD module and never assign
+ * their exports. The consumer that needed them then throws during render and its
+ * view comes up blank (a black table).
+ *
+ * Monaco reads the marker only while its own loader initializes, so clearing it
+ * once the build is up restores normal UMD behaviour for every other bundle and
+ * leaves Monaco's lazy language modules working: they still call `define(...)`,
+ * which stays installed, and never look at the marker.
+ * @param target - the global object the loader published `define` on.
+ */
+export function releaseAmdMarker(target: { define?: AmdDefine }): void {
+  const define = target.define
+  if (define !== undefined && define.amd !== undefined) delete define.amd
+}
 
 /** The one in-flight load, shared by every editor instance. */
 let loading: Promise<MonacoApi> | undefined
@@ -111,6 +137,7 @@ export function fileUriOf(path: string): string {
 export function loadMonaco(base: string): Promise<MonacoApi> {
   loading ??= new Promise<MonacoApi>((resolve, reject) => {
     if (scope.monaco !== undefined) {
+      releaseAmdMarker(scope)
       resolve(scope.monaco)
       return
     }
@@ -128,8 +155,13 @@ export function loadMonaco(base: string): Promise<MonacoApi> {
       amd.config({ paths: { vs: `${base}/vs` } })
       amd(['vs/editor/editor.main'], () => {
         const api = scope.monaco
-        if (api === undefined) reject(new Error('the Monaco entry module did not publish monaco'))
-        else resolve(api)
+        if (api === undefined) {
+          reject(new Error('the Monaco entry module did not publish monaco'))
+          return
+        }
+        // The editor is up; hand the page back its UMD semantics (see above).
+        releaseAmdMarker(scope)
+        resolve(api)
       }, (error: unknown) => { reject(error instanceof Error ? error : new Error(String(error))) })
     }
     document.head.appendChild(script)
